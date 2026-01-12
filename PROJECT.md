@@ -1,4 +1,4 @@
-# Frozen（Antigravityが必ず読むプロジェクトの中核）
+# FROZEN（Antigravityが必ず読むプロジェクトの中核）
 
 ## Core Topics（常に先頭に来る目次）
 - このプロジェクトの目的（簡潔）
@@ -9,7 +9,7 @@
 - フォルダ構成の大枠
 - 実装方針の大きなルール
 - **AIエージェント（Gemini / Antigravity / GPT）は、このドキュメントを最優先で参照すること**
-- **ARCHITECTURE.md を必ず参照し、Frozen と整合性を保ちながら実装・修正すること**
+- **ARCHITECTURE.md を必ず参照し、FROZEN と整合性を保ちながら実装・修正すること**
 
 
 
