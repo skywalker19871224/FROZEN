@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Feature Toggles (Chat-controllable)
     const APP_CONFIG = {
-        enableFullscreenViewer: false
+        enableFullscreenViewer: true,
+        viewerMode: 'mini' // Options: 'fullscreen', 'mini'
     };
 
     const photoGrid = document.getElementById('photo-grid');
@@ -244,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openViewer(index) {
+        viewer.dataset.mode = APP_CONFIG.viewerMode;
         viewer.classList.add('active');
         const slideWidth = viewerSlider.offsetWidth;
         viewerSlider.scrollLeft = index * slideWidth;

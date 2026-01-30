@@ -44,6 +44,8 @@ Chikaさんの特別予告アルバムを、iOSのような洗練されたUI/UX�
 チャットでの口頭指示により、サイトの機能を即座に切り替える「フィーチャー・フラグ」を導入しました。
 *   **指令: 「ビューアーをオフにして」** -> `enableFullscreenViewer: false` (巨大画像表示を無効化)
 *   **指令: 「ビューアーをオンにして」** -> `enableFullscreenViewer: true` (巨大画像表示を有効化)
+*   **指令: 「ビューアーをフル画面にして」** -> `viewerMode: 'fullscreen'` (標準の大きな表示)
+*   **指令: 「ビューアーをミニにして」** -> `viewerMode: 'mini'` (画面中央に浮かぶ小窓モード)
 
 ## 技術スタック
 *   **Frontend**: Vanilla JS, CSS3, HTML5

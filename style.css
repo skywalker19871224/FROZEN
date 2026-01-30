@@ -308,7 +308,35 @@ img,
     z-index: 2000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+/* Mini Mode (30% Scale) */
+.fullscreen-viewer[data-mode="mini"] {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.fullscreen-viewer[data-mode="mini"] .viewer-slider {
+    width: 80vw;
+    /* 30% might be too small for mobile, making it responsive */
+    height: 50vh;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    background: #111;
+}
+
+.fullscreen-viewer[data-mode="mini"] .viewer-slide {
+    flex: 0 0 80vw;
+    width: 80vw;
+}
+
+.fullscreen-viewer[data-mode="mini"] .viewer-slide img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
 }
 
 .fullscreen-viewer.active {
