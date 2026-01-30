@@ -179,24 +179,38 @@ img,
     cursor: pointer;
 }
 
-/* Sample Watermark */
+/* Sample Watermark (First Image Only) */
 .sample-watermark {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
-    color: rgba(255, 255, 255, 0.5);
-    /* 50% Opacity White */
-    font-size: clamp(20px, 6vw, 40px);
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4);
+    /* Subtle White */
+    font-size: clamp(30px, 10vw, 84px);
     font-weight: 900;
     pointer-events: none;
     z-index: 5;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    padding: 0.2em 0.5em;
+    text-align: center;
     white-space: nowrap;
+    opacity: 0;
+    /* Hidden by default */
+    transition: opacity 0.5s ease;
+}
+
+/* Show SAMPLE only when unlocked */
+.photo-item[data-status="unlocked"] .sample-watermark {
+    opacity: 1;
+}
+
+/* Always show in viewer since it's only open when unlocked */
+.viewer-slide .sample-watermark {
+    opacity: 1;
+    font-size: clamp(60px, 15vw, 150px);
 }
 
 .photo-image {
