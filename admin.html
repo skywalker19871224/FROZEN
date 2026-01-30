@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Admin - Album Manager</title>
+    <style>
+        :root {
+            --bg: #000;
+            --gold: #E0CA82;
+            --red: #ff453a;
+            --dark: #111;
+        }
+
+        body {
+            background: var(--bg);
+            color: white;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-gate {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        input[type="password"] {
+            background: #222;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            outline: none;
+        }
+
+        .btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        #admin-panel {
+            display: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .item {
+            aspect-ratio: 1;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #222;
+            border-radius: 4px;
+            position: relative;
+            cursor: grab;
+        }
+
+        .item:active {
+            cursor: grabbing;
+        }
+
+        .item::after {
+            content: attr(data-id);
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            font-size: 10px;
+            padding: 2px 4px;
+        }
+
+        .save-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 16px 32px;
+            border: 1px solid var(--gold);
+            border-radius: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login-gate" class="login-gate">
+        <h1 style="color: var(--gold)">Admin Login</h1>
+        <input type="password" id="admin-pass" placeholder="Password">
+        <button id="login-btn" class="btn">Login</button>
+    </div>
+
+    <div id="admin-panel">
+        <div class="header">
+            <h2>Album Manager</h2>
+            <button onclick="location.reload()" class="btn" style="background: #333; color: #ccc;">Reset</button>
+        </div>
+
+        <div id="sortable-grid" class="grid">
+            <!-- Items injected here -->
+        </div>
+
+        <div class="save-bar">
+            <button id="save-btn" class="btn">Apply Changes to Site</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        const loginGate = document.getElementById('login-gate');
+        const adminPanel = document.getElementById('admin-panel');
+        const adminPass = document.getElementById('admin-pass');
+        const loginBtn = document.getElementById('login-btn');
+        const grid = document.getElementById('sortable-grid');
+        const saveBtn = document.getElementById('save-btn');
+
+        let currentOrder = [];
+
+        loginBtn.addEventListener('click', async () => {
+            if (adminPass.value === 'admin1192') {
+                loginGate.style.display = 'none';
+                adminPanel.style.display = 'block';
+                loadOrder();
+            } else {
+                alert('Wrong Password');
+            }
+        });
+
+        async function loadOrder() {
+            const res = await fetch('/api/order');
+            currentOrder = await res.json();
+            renderItems();
+        }
+
+        function renderItems() {
+            grid.innerHTML = '';
+            currentOrder.forEach(id => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.dataset.id = id;
+                const paddedId = String(id).padStart(3, '0');
+                div.style.backgroundImage = `url('./public/gallery/img_${paddedId}.jpg')`;
+                grid.appendChild(div);
+            });
+
+            new Sortable(grid, {
+                animation: 150,
+                ghostClass: 'sortable-ghost'
+            });
+        }
+
+        saveBtn.addEventListener('click', async () => {
+            const newOrder = Array.from(grid.children).map(el => parseInt(el.dataset.id));
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+
+            try {
+                const res = await fetch('/api/order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPass.value,
+                        order: newOrder
+                    })
+                });
+
+                if (res.ok) {
+                    alert('Successfully published!');
+                } else {
+                    alert('Error: ' + await res.text());
+                }
+            } catch (e) {
+                alert('Connection Error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Apply Changes to Site';
+            }
+        });
+    </script>
+</body>
+
+</html>

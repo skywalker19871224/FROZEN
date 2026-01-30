@@ -8,8 +8,20 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="FROZEN">
-    <title>FROZEN</title>
+    <meta name="description" content="コンプリート限定者向け特別予告アルバム">
+    <title>Secret Gallery</title>
+    <!-- OGP -->
+    <meta property="og:title" content="Secret Gallery - コンプリート限定者向け">
+    <meta property="og:description" content="Chikaさんの特別な予告アルバムです。パスコードを入力して解放してください。">
+    <meta property="og:image" content="https://frozen-site.pages.dev/public/ogp.png">
+    <meta property="og:url" content="https://frozen-site.pages.dev">
+    <meta property="og:type" content="website">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Secret Gallery">
+    <meta name="twitter:description" content="コンプリート限定者向け特別予告アルバム">
+    <meta name="twitter:image" content="https://frozen-site.pages.dev/public/ogp.png">
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,10 +29,11 @@
     <div class="app-container">
         <!-- Header -->
         <header class="header">
-            <h1 class="header-title">ライブラリ</h1>
-            <button id="unlock-button" class="header-button">
-                Unlock
-            </button>
+            <h1 class="header-title">コンプリート限定者向け<br>くぱぁアルバム受付開始</h1>
+            <div class="header-timer-container">
+                <span class="header-timer-label">受付終了まで</span>
+                <div id="countdown-timer" class="header-timer">00:00:00</div>
+            </div>
         </header>
 
         <!-- Photo Grid -->
@@ -28,41 +41,48 @@
             <!-- Photos will be injected here by script.js -->
         </main>
 
+        <!-- Fullscreen Swipe Viewer (Pro Max) -->
+        <div id="fullscreen-viewer" class="fullscreen-viewer">
+            <button id="viewer-close" class="viewer-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div id="viewer-slider" class="viewer-slider">
+                <!-- All images will be injected here for seamless swiping -->
+            </div>
+        </div>
+
+        <!-- Custom Modal Component -->
+        <div id="custom-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Password Required</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Chikaさんにパスワードを聞いて<br>予告を解放してください</p>
+                    <div class="password-container">
+                        <input type="password" id="unlock-password" placeholder="Passcode" maxlength="4"
+                            inputmode="numeric">
+                    </div>
+                    <p id="password-error" class="error-text">パスワードが正しくありません</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-cancel" class="modal-btn secondary">キャンセル</button>
+                    <button id="modal-confirm" class="modal-btn primary">解放する</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Tab Bar -->
-        <nav class="tab-bar">
-            <div class="tab-item active">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.5" />
-                    <rect x="4" y="4" width="7" height="7" rx="1" fill="currentColor" />
-                    <rect x="13" y="4" width="7" height="7" rx="1" fill="currentColor" />
-                    <rect x="4" y="13" width="7" height="7" rx="1" fill="currentColor" />
-                    <rect x="13" y="13" width="7" height="7" rx="1" fill="currentColor" />
-                </svg>
-                <span class="tab-label">Library</span>
+        <!-- Info Footer (Text Area) -->
+        <footer id="info-footer" class="info-footer">
+            <div id="footer-text" class="footer-text-content">
+                <!-- Content from footer-content.md will be loaded here -->
             </div>
-            <div class="tab-item">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
-                <span class="tab-label">For You</span>
-            </div>
-            <div class="tab-item">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <line x1="12" y1="8" x2="12" y2="16" />
-                    <line x1="8" y1="12" x2="16" y2="12" />
-                </svg>
-                <span class="tab-label">Albums</span>
-            </div>
-            <div class="tab-item">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <span class="tab-label">Search</span>
-            </div>
-        </nav>
+        </footer>
     </div>
 
     <script src="script.js"></script>
